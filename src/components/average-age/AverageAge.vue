@@ -35,13 +35,15 @@ import CountUp from 'vue-countup-v3';
 import VChart from 'vue-echarts';
 
 import type { AgeBar } from '@/api/interface';
+import { colors } from '@/config/color';
+import type { EChartsOption } from 'echarts';
 
 const props = defineProps({
     data: { type: Array as PropType<AgeBar[]>, default: () => [] },
     avgAge: { type: String, default: '0' }
 });
 
-const option = ref();
+const option = ref<EChartsOption>();
 
 function updateChart() {
     const data: Array<number | string> = ['年龄分布'];
@@ -68,7 +70,10 @@ function updateChart() {
         },
         color,
         grid: {
-            top: 20
+            left: 40,
+            right: 40,
+            top: 20,
+            bottom: 60
         },
         dataset: {
             source: [axis, data]
@@ -80,19 +85,25 @@ function updateChart() {
             axisTick: { show: false }, // 是否显示坐标轴刻度。
             axisLabel: {
                 // 坐标轴刻度标签
-                color: 'rgb(98, 105, 113)',
+                color: colors['gray-color-4'],
                 fontSize: 18
             },
             axisLine: {
                 // 坐标轴轴线
                 lineStyle: {
-                    color: 'rgb(50, 51, 63)',
+                    color: colors['gray-color-4'],
                     width: 3
                 }
             }
         },
         yAxis: {
-            type: 'category'
+            type: 'category',
+            axisLabel: {
+                show: false
+            },
+            axisLine: {
+                show: false
+            }
         },
         series: [
             { type: 'bar', stack: 'total' },
@@ -120,7 +131,7 @@ watch(
 .average-age {
     width: 100%;
     height: 100%;
-    background: rgb(43, 44, 46);
+    background: $gray-color-10;
     padding: 20px 40px;
     box-sizing: border-box;
 
@@ -194,6 +205,7 @@ watch(
                 .text {
                     margin-left: 10px;
                     font-size: 16px;
+                    color: $gray-color-4;
                 }
             }
         }

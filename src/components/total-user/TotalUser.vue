@@ -35,17 +35,19 @@ type Props = {
         userToday: number;
         userGrowthLastDay: string;
         userGrowthLastMonth: string;
-    }
-}
+    };
+};
 
-withDefaults(defineProps<Props>(), { data: () => ({ userToday: 0, userGrowthLastDay: '0.00', userGrowthLastMonth: '0.00' }) });
+withDefaults(defineProps<Props>(), {
+    data: () => ({ userToday: 0, userGrowthLastDay: '0.00', userGrowthLastMonth: '0.00' })
+});
 </script>
 
 <style scoped lang="scss">
 .total-user {
     width: 100%;
     height: 100%;
-    background: rgb(66, 68, 70);
+    background: $gray-color-10;
     box-shadow: 0 10px 10px rgba(0, 0, 0, 0.3);
     padding: 20px 40px;
     box-sizing: border-box;
@@ -76,11 +78,11 @@ withDefaults(defineProps<Props>(), { data: () => ({ userToday: 0, userGrowthLast
         align-items: center;
 
         .percent-text-day {
-            color: rgb(197, 251, 121);
+            color: $primary-color-7;
         }
 
         .percent-text-month {
-            color: rgb(99, 169, 0);
+            color: $primary-color-8;
             margin-left: 20px;
         }
     }
@@ -88,7 +90,7 @@ withDefaults(defineProps<Props>(), { data: () => ({ userToday: 0, userGrowthLast
     .percent {
         height: 20px;
         box-sizing: border-box;
-        border: 1px solid #fff;
+        border: 1px solid $primary-color-8;
         margin-top: 10px;
 
         .percent-inner-wrapper {
@@ -99,7 +101,7 @@ withDefaults(defineProps<Props>(), { data: () => ({ userToday: 0, userGrowthLast
 
             .percent-inner {
                 height: 100%;
-                background: rgb(150, 150, 150);
+                background: $primary-color-6;
                 transition: all 1s linear;
             }
         }

@@ -1,7 +1,7 @@
 import axios, { type AxiosRequestConfig } from 'axios';
 
 const request = axios.create({
-    baseURL: 'https://book.youbaobao.xyz:18082',
+    baseURL: './',
     headers: {
         'Content-Type': 'application/json; charset=UTF-8'
     },

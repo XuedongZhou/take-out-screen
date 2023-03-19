@@ -20,8 +20,8 @@
         </div>
         <div class="project-wrapper">
             <div class="project" v-for="(item, index) in project" :key="index">
-                <div class="project-img">
-                    <img :src="item.img" />
+                <div class="project-icon">
+                    <Icon :icon="item.icon" />
                 </div>
                 <div class="project-text">{{ item.title }}</div>
                 <div class="project-value">{{ item.value }}</div>
@@ -36,11 +36,11 @@ import CountUp from 'vue-countup-v3';
 import Icon from '@/components/icon/Icon.vue';
 import type { SummaryData } from '@/api/interface';
 
-type Props = { data?: SummaryData }
+type Props = { data?: SummaryData };
 
 const props = defineProps<Props>();
 
-const project = ref<{ title: string; value: string; img: string }[]>([]);
+const project = ref<{ title: string; value: string; icon: string }[]>([]);
 const headerData = ref<{ title: string; subTitle: string; value: number; icon: string }[]>([]);
 
 watch(
@@ -53,12 +53,12 @@ watch(
             {
                 title: '转化率',
                 value: `${props.data?.covertRate}%`,
-                img: 'https://www.youbaobao.xyz/datav-res/success.png'
+                icon: 'zhuanhuashuai'
             },
             {
                 title: '退单率',
                 value: `${props.data?.returnRate}%`,
-                img: 'https://www.youbaobao.xyz/datav-res/failed.png'
+                icon: 'tuidan'
             }
         ];
         headerData.value = [
@@ -98,7 +98,7 @@ watch(
     align-items: center;
     width: 100%;
     height: 100%;
-    background: rgb(66, 68, 70);
+    background: $gray-color-9;
     padding: 0 40px;
     box-sizing: border-box;
 
@@ -114,11 +114,11 @@ watch(
                     display: flex;
                     align-items: center;
                     justify-content: center;
-                    width: 180px;
-                    height: 180px;
+                    width: 160px;
+                    height: 160px;
                     background-repeat: no-repeat;
                     background-size: 100% 100%;
-                    background-color: rgb(131, 167, 72);
+                    background-color: $primary-color-6;
                     border-radius: 50%;
 
                     .img {
@@ -171,12 +171,13 @@ watch(
             flex-direction: column;
             align-items: center;
 
-            .project-img {
+            .project-icon {
                 display: flex;
                 align-items: center;
                 justify-content: center;
                 width: 90px;
                 height: 90px;
+                color: $primary-color-6;
             }
 
             img {

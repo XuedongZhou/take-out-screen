@@ -6,7 +6,7 @@
                 <div class="sub-title">Hot Categories</div>
             </div>
             <div class="right">
-                <div class="sub-title">最后更新时间：{{ `${date} ${time}` }}</div>
+                <div class="sub-title">最后更新时间：{{ format(updateTime, 'yyyy-MM-dd HH:mm:ss') }}</div>
             </div>
         </div>
         <VChart class="chart" :option="option" />
@@ -15,19 +15,22 @@
 
 <script setup lang="ts">
 import { ref, watch, type PropType } from 'vue';
-import type { Category } from '@/api/interface';
 import VChart from 'vue-echarts';
-import useClock from '@/hooks/useClock';
+import { format } from 'date-fns';
+import type { Category } from '@/api/interface';
+import { colors, colorsOpacity } from '@/config/color';
 
 const props = defineProps({
     data: {
         type: Object as PropType<Category>
+    },
+    updateTime: {
+        type: Date,
+        default: new Date()
     }
 });
 
 const option = ref();
-
-const { date, time } = useClock();
 
 let currentChart = 0;
 
@@ -55,7 +58,7 @@ function updateChart() {
                 type: 'shadow'
             }
         },
-        color: ['rgb(209,248,138)', 'rgba(65,65,65,.5)'],
+        color: [colors['primary-color-6'], colorsOpacity(0.1)],
         grid: {
             left: 20,
             right: 0,
@@ -75,11 +78,11 @@ function updateChart() {
             axisLine: {
                 onZero: false,
                 lineStyle: {
-                    color: 'rgb(124,136,146)'
+                    color: colors['gray-color-4']
                 }
             },
             axisLabel: {
-                color: 'rgb(98,105,113)',
+                color: colors['gray-color-4'],
                 fontSize: 16
             },
             axisTick: { show: false }
@@ -89,13 +92,13 @@ function updateChart() {
             splitLine: { show: false },
             axisTick: { show: false },
             axisLabel: {
-                color: 'rgb(98,105,113)',
+                color: colors['gray-color-4'],
                 fontSize: 16
             },
             axisLine: {
                 onZero: false,
                 lineStyle: {
-                    color: 'rgb(124,136,146)'
+                    color: colors['gray-color-4']
                 }
             }
         },
@@ -126,7 +129,7 @@ watch(
 .bar-chart {
     width: 100%;
     height: 100%;
-    background: rgb(43, 44, 46);
+    background: $gray-color-10;
     padding: 20px 40px;
     box-sizing: border-box;
     display: flex;

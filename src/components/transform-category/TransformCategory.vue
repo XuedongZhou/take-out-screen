@@ -21,6 +21,7 @@
 </template>
 
 <script setup lang="ts">
+import { colors } from '@/config/color';
 import { ref, withDefaults, onMounted, onUnmounted } from 'vue';
 
 type Props = {
@@ -28,7 +29,10 @@ type Props = {
     color?: [string, string];
 };
 
-const props = withDefaults(defineProps<Props>(), { data: () => [], color: () => ['rgb(140,160,173)', 'rgb(80,80,80)'] });
+const props = withDefaults(defineProps<Props>(), {
+    data: () => [],
+    color: () => [colors['primary-color-6'], colors['primary-color-5']]
+});
 
 const selected = ref(0);
 
@@ -72,17 +76,17 @@ function mouseLeave() {
 
     .category {
         flex: 1;
-        background: rgb(53, 57, 65);
+        background: $gray-color-9;
         font-size: 24px;
-        color: rgb(144, 160, 174);
+        color: $gray-color-5;
 
         .hovered {
-            background: rgb(80, 80, 80);
+            background: $gray-color-10;
         }
 
         .selected {
-            background: rgb(140, 160, 173);
-            color: #fff;
+            background: $gray-color-10;
+            color: $gray-color-1;
         }
 
         div {

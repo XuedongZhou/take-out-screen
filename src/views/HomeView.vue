@@ -1,8 +1,14 @@
 <template>
     <div class="home">
-        <Loading v-if="loading" :width="60" :height="60">
+        <ScreenLoading
+            v-if="loading"
+            :outStrokeColor="colors['primary-color-5']"
+            :inSideColor="colors['primary-color-7']"
+            :width="60"
+            :height="60"
+        >
             <div class="loading-text">数据大屏加载中...</div>
-        </Loading>
+        </ScreenLoading>
         <ScreenContainer v-else :options="{ width: 3840, height: 2160 }">
             <div class="header">
                 <TopHeader />
@@ -26,7 +32,7 @@
                         <TotalRider :data="baseData?.rider" />
                     </div>
                     <div class="left6">
-                        <HotCategory :data="baseData?.category" />
+                        <HotCategory :data="baseData?.category" :update-time="updateTime" />
                     </div>
                 </div>
                 <div class="right">
@@ -34,7 +40,7 @@
                         <CenterHeader :data="baseData" />
                     </div>
                     <div class="right-top2">
-                        <TransformCategory :data="['全部', '北京', '上海', '深圳', '成都', '杭州', '武汉']" />
+                        <TransformCategory :data="['全部', '北京', '上海', '广州', '深圳', '杭州', '成都']" />
                     </div>
                     <div class="right-bottom">
                         <div class="bottom-left">
@@ -42,8 +48,10 @@
                                 <OrderMap :ready="ready" :data="mapData" />
                             </div>
                             <div class="bottom-left2">
-                                <TransformCategory :data="['订单量', '销售额', '用户数', '退单量']"
-                                    :color="['rgb(178,209,126)', 'rgb(116,166,49)']" />
+                                <TransformCategory
+                                    :data="['订单量', '销售额', '用户数', '退单量']"
+                                    :color="[colors['primary-color-6'], colors['primary-color-4']]"
+                                />
                             </div>
                             <div class="bottom-left3">
                                 <FlyBox>
@@ -70,10 +78,9 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted } from 'vue';
-import useScreenData from '../hooks/useScreenData';
+import { ref, onMounted, computed } from 'vue';
 import ScreenContainer from '@/components/screen-container/ScreenContainer.vue';
-import Loading from '@/components/loading/Loading.vue';
+import ScreenLoading from '@/components/screen-loading/ScreenLoading.vue';
 import TopHeader from '@/components/top-header/TopHeader.vue';
 import TotalUser from '@/components/total-user/TotalUser.vue';
 import AverageAge from '@/components/average-age/AverageAge.vue';
@@ -89,6 +96,9 @@ import FlyBox from '@/components/flybox/FlyBox.vue';
 import RealTimeOrder from '@/components/real-time-order/RealTimeOrder.vue';
 import ScheduleView from '@/components/schedule-view/ScheduleView.vue';
 import SalesRanking from '@/components/sales-ranking/SalesRanking.vue';
+import { useDataStore } from '@/stores/data';
+import { useMapStore } from '@/stores/map';
+import { colors } from '@/config/color';
 
 const loading = ref(true);
 
@@ -98,14 +108,25 @@ onMounted(() => {
     }, 1000);
 });
 
-const { ready, baseData, totalUser, ageData, deviceData, realTimeOrder, mapData } = useScreenData();
+const data = useDataStore();
+const map = useMapStore();
+
+const baseData = computed(() => data.baseData);
+const totalUser = computed(() => data.totalUser);
+const ageData = computed(() => data.ageData);
+const deviceData = computed(() => data.deviceData);
+const realTimeOrder = computed(() => data.realTimeOrder);
+const updateTime = computed(() => data.updateTime);
+
+const ready = computed(() => map.ready);
+const mapData = computed(() => map.mapData);
 </script>
 
 <style scoped lang="scss">
 .home {
     height: 100%;
-    background-color: rgb(29, 29, 29);
-    color: #fff;
+    background-color: $gray-color-12;
+    color: $gray-color-1;
     font-size: 48px;
     display: flex;
     flex-direction: column;
@@ -116,12 +137,11 @@ const { ready, baseData, totalUser, ageData, deviceData, realTimeOrder, mapData 
 
         .header {
             height: 167px;
-            margin-top: 10px;
         }
 
         .separator {
             height: 10px;
-            background-color: rgb(92, 88, 89);
+            background-color: $gray-color-7;
         }
 
         .center {
@@ -155,7 +175,7 @@ const { ready, baseData, totalUser, ageData, deviceData, realTimeOrder, mapData 
                 }
 
                 .left5 {
-                    height: 360px;
+                    height: 400px;
                 }
 
                 .left6 {
@@ -167,6 +187,7 @@ const { ready, baseData, totalUser, ageData, deviceData, realTimeOrder, mapData 
                 flex: 1;
                 display: flex;
                 flex-direction: column;
+                margin-left: 10px;
 
                 .right-top1 {
                     height: 206px;
@@ -194,15 +215,15 @@ const { ready, baseData, totalUser, ageData, deviceData, realTimeOrder, mapData 
                         }
 
                         .bottom-left2 {
-                            height: 80px;
+                            height: 60px;
                         }
 
                         .bottom-left3 {
-                            height: 350px;
+                            height: 360px;
                         }
 
                         .bottom-left4 {
-                            height: 220px;
+                            height: 240px;
                         }
                     }
 
@@ -212,14 +233,13 @@ const { ready, baseData, totalUser, ageData, deviceData, realTimeOrder, mapData 
                         flex-direction: column;
                         justify-content: space-between;
                         margin-left: 10px;
-                        margin-right: 10px;
 
                         .bottom-right1 {
                             height: 999px;
                         }
 
                         .bottom-right2 {
-                            margin-top: 20px;
+                            margin-top: 10px;
                             flex: 1;
                         }
                     }
@@ -231,5 +251,6 @@ const { ready, baseData, totalUser, ageData, deviceData, realTimeOrder, mapData 
 
 .loading-text {
     font-size: 20px;
+    color: $primary-color-8;
 }
 </style>

@@ -26,15 +26,16 @@
 <script setup lang="ts">
 import { ref, computed, onMounted } from 'vue';
 import { v4 as uuidv4 } from 'uuid';
+import { colors } from '@/config/color';
 
 defineProps({
     lineColor: {
         type: String,
-        default: '#235fa7'
+        default: colors['primary-color-1']
     },
     starColor: {
         type: String,
-        default: '#4fd2dd'
+        default: colors['primary-color-6']
     },
     starLength: {
         type: Number,
@@ -55,7 +56,9 @@ const height = ref(0);
 
 const flyBoxRef = ref<HTMLDivElement>();
 
-const dPath = computed(() => `M5 5 L${width.value - 5} 5 L${width.value - 5} ${height.value - 5} L5 ${height.value - 5} Z`);
+const dPath = computed(
+    () => `M5 5 L${width.value - 5} 5 L${width.value - 5} ${height.value - 5} L5 ${height.value - 5} Z`
+);
 
 function init() {
     const dom = flyBoxRef.value;

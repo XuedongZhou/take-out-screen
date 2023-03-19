@@ -12,12 +12,12 @@ import { debounce } from 'lodash-es';
 
 type Props = {
     options?: {
-        width: number,
-        height: number
-    }
-}
+        width: number;
+        height: number;
+    };
+};
 
-const props = defineProps<Props>()
+const props = defineProps<Props>();
 
 const originalWidth = ref(0);
 const originalHeight = ref(0);
@@ -67,8 +67,8 @@ function updateScale() {
 }
 
 async function onResize() {
-    await initSize()
-    updateScale()
+    await initSize();
+    updateScale();
 }
 
 function initMutationObserver() {
@@ -93,7 +93,7 @@ onMounted(async () => {
     ready.value = false;
     context = getCurrentInstance();
     if (!context) {
-        return
+        return;
     }
     dom = context.refs[refName] as HTMLDivElement;
     await initSize();

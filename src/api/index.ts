@@ -3,14 +3,14 @@ import type { MapData, ScreenData } from './interface';
 
 export function getUserData() {
     return http<ScreenData>({
-        url: '/screen/data',
+        url: '/screen/data.json',
         method: 'get'
     });
 }
 
 export function getMapData() {
     return http<MapData>({
-        url: '/screen/map',
+        url: '/screen/map.json',
         method: 'get'
     });
 }

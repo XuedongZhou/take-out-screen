@@ -22,24 +22,28 @@
 </template>
 
 <script setup lang="ts">
-import { ref, watch, computed } from "vue";
+import { ref, watch, computed } from 'vue';
 import CountUp from 'vue-countup-v3';
 import VChart from 'vue-echarts';
-import { graphic, type EChartsOption } from 'echarts'
+import { graphic, type EChartsOption } from 'echarts';
+import { colors, colorsOpacity } from '@/config/color';
 
 type Props = {
-    data: any
-}
+    data: {
+        data: number[];
+        date: string[];
+    };
+};
 
-const kpi = 999999
+const kpi = 999999;
 
-const props = defineProps<Props>()
+const props = defineProps<Props>();
 
-const endVal = ref(23242)
+const endVal = ref(23242);
 
-const percent = computed(()=> endVal.value / kpi * 100)
+const percent = computed(() => (endVal.value / kpi) * 100);
 
-const option = ref<EChartsOption>()
+const option = ref<EChartsOption>();
 
 function update() {
     option.value = {
@@ -49,7 +53,7 @@ function update() {
             data: props.data.date,
             axisLine: {
                 lineStyle: {
-                    color: 'rgba(200, 200, 200)'
+                    color: colors['gray-color-4']
                 }
             },
             axisLabel: {
@@ -60,66 +64,67 @@ function update() {
             type: 'value',
             splitLine: {
                 lineStyle: {
-                    color: 'rgb(50, 50, 50)'
+                    color: colors['gray-color-9']
                 }
             },
             axisLine: {
                 lineStyle: {
-                    color: 'rgba(200, 200, 200)'
+                    color: colors['gray-color-4']
                 }
             },
             axisLabel: {
                 fontSize: 16
             }
         },
-        dataZoom: [{
-            type: 'inside',
-            start: 0,
-            end: 100
-        }, {
-            start: 0,
-            end: 100,
-            handleSize: '100%',
-            handleStyle: {
-                color: '#a7b7cc',
+        dataZoom: [
+            {
+                type: 'inside',
+                start: 0,
+                end: 100
             },
-            textStyle: {
-                color: 'rgb(200, 200, 200)'
-            },
-            fillerColor: 'rgba(120,126,134,.3)',
-            dataBackground: {
-                lineStyle: {
-                    color: 'grey'
+            {
+                start: 0,
+                end: 100,
+                handleSize: '100%',
+                handleStyle: {
+                    color: colors['primary-color-6']
                 },
-                areaStyle: {
-                    color: 'gray'
-                }
-            },
-            borderColor: 'rgb(200, 200, 200)'
-        }],
+                textStyle: {
+                    color: colors['gray-color-2']
+                },
+                fillerColor: colorsOpacity(0.2),
+                dataBackground: {
+                    lineStyle: {
+                        color: colors['gray-color-6']
+                    },
+                    areaStyle: {
+                        color: colors['gray-color-6']
+                    }
+                },
+                borderColor: colors['primary-color-5']
+            }
+        ],
         series: [
             {
-                name: '模拟数据',
                 type: 'line',
                 smooth: true,
                 symbol: 'none',
                 sampling: 'average',
                 itemStyle: {
-                    color: new graphic.LinearGradient(0, 0, 0, 1,
-                        [
-                            {
-                                offset: 0,
-                                color: '#C2C90B'
-                            },
-                            {
-                                offset: 0.5,
-                                color: '#A1DC14'
-                            },
-                            {
-                                offset: 1,
-                                color: 'rgb(188, 222, 129)'
-                            }
-                        ])
+                    color: new graphic.LinearGradient(0, 0, 0, 1, [
+                        {
+                            offset: 0,
+                            color: colors['primary-color-5']
+                        },
+                        {
+                            offset: 0.5,
+                            color: colors['primary-color-6']
+                        },
+                        {
+                            offset: 1,
+                            color: colors['primary-color-7']
+                        }
+                    ])
                 },
                 data: props.data.data
             }
@@ -130,12 +135,16 @@ function update() {
             right: 40,
             left: 80
         }
-    }
+    };
 }
 
-watch(() => props.data, () => {
-    update()
-}, { immediate: true })
+watch(
+    () => props.data,
+    () => {
+        update();
+    },
+    { immediate: true }
+);
 </script>
 
 <style scoped lang="scss">
@@ -143,6 +152,7 @@ watch(() => props.data, () => {
     display: flex;
     width: 100%;
     height: 100%;
+    background-color: $gray-color-10;
 
     .left {
         display: flex;
@@ -174,7 +184,7 @@ watch(() => props.data, () => {
 
         .tiny-title {
             font-size: 18px;
-            color: #fff;
+            color: $gray-color-1;
             line-height: 36px;
         }
 
@@ -184,7 +194,7 @@ watch(() => props.data, () => {
             letter-spacing: 2px;
 
             .percent-text-1 {
-                color: rgb(197, 251, 121);
+                color: $primary-color-6;
                 font-weight: bolder;
             }
         }

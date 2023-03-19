@@ -32,16 +32,17 @@
 </template>
 
 <script setup lang="ts">
-import type { DeviceData, ScreenData } from '@/api/interface';
 import { ref, watch, type PropType } from 'vue';
 import CountUp from 'vue-countup-v3';
 import VChart from 'vue-echarts';
+import type { DeviceData } from '@/api/interface';
+import { colors } from '@/config/color';
 
 const props = defineProps({
     data: { type: Object as PropType<DeviceData>, default: () => ({ totalDevices: 0, devices: [] }) }
 });
 
-const color = ['rgb(176,207,120)', 'rgb(157,195,91)', 'rgb(131,167,72)'];
+const color = [colors['primary-color-6'], colors['primary-color-7'], colors['primary-color-8']];
 
 const refData = ref<any>([]);
 
@@ -61,7 +62,7 @@ function updateChart() {
                 color,
                 emphasis: {
                     itemStyle: {
-                        color: 'rgb(140,251,182)'
+                        color: colors['primary-color-5']
                     }
                 },
                 data: refData.value,
@@ -99,7 +100,7 @@ watch(
     display: flex;
     width: 100%;
     height: 100%;
-    background: rgb(43, 44, 46);
+    background: $gray-color-10;
 
     .total-device-left {
         width: 30%;

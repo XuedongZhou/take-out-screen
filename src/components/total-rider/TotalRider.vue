@@ -13,8 +13,9 @@ import { ref, watch, type PropType } from 'vue';
 import VChart from 'vue-echarts';
 import type { Rider } from '@/api/interface';
 import type { EChartsOption } from 'echarts';
+import { colors } from '@/config/color';
 
-const colors = ['rgb(209,248,139)', 'rgb(115,201,245)', 'rgb(124,136,146)'];
+const color = [colors['primary-color-6'], colors['primary-color-8'], colors['gray-color-4']];
 
 const props = defineProps({
     data: {
@@ -44,7 +45,7 @@ function updateChart() {
     }
 
     option.value = {
-        color: colors,
+        color: color,
         tooltip: {
             trigger: 'none',
             axisPointer: {
@@ -57,12 +58,12 @@ function updateChart() {
             icon: 'rect',
             textStyle: {
                 fontSize: 16,
-                color: colors[2]
+                color: color[2]
             },
             data: legendData
         },
         grid: {
-            top: 60,
+            top: 80,
             bottom: 30,
             left: 80,
             right: 40
@@ -74,7 +75,7 @@ function updateChart() {
                 axisLine: {
                     onZero: false,
                     lineStyle: {
-                        color: colors[2]
+                        color: color[2]
                     }
                 },
                 axisLabel: {
@@ -95,7 +96,7 @@ function updateChart() {
                 axisLine: {
                     onZero: false,
                     lineStyle: {
-                        color: colors[2]
+                        color: color[2]
                     }
                 },
                 axisLabel: {
@@ -153,7 +154,7 @@ watch(
 .total-rider {
     width: 100%;
     height: 100%;
-    background: rgb(43, 44, 46);
+    background: $gray-color-10;
     display: flex;
     flex-direction: column;
 

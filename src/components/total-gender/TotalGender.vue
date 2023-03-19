@@ -2,7 +2,7 @@
     <div class="total-gender">
         <div class="title-wrapper">
             <div class="left">
-                <img src="http://img.alicdn.com/tfs/TB1p9Luq8v0gK0jSZKbXXbK2FXa-500-500.png" />
+                <DashboardIcon />
             </div>
             <div class="right">
                 <div class="title">男性用户人数</div>
@@ -15,7 +15,7 @@
         </div>
         <div class="title-wrapper">
             <div class="left">
-                <img src="http://img.alicdn.com/tfs/TB1p9Luq8v0gK0jSZKbXXbK2FXa-500-500.png" />
+                <DashboardIcon />
             </div>
             <div class="right">
                 <div class="title">女性用户人数</div>
@@ -33,8 +33,9 @@
 import { ref, watch } from 'vue';
 import CountUp from 'vue-countup-v3';
 import type { Gender } from '@/api/interface';
+import DashboardIcon from '@/components/dashboard-icon/DashboardIcon.vue';
 
-type Props = { data?: [Gender, Gender] }
+type Props = { data?: [Gender, Gender] };
 
 const props = defineProps<Props>();
 
@@ -61,17 +62,15 @@ watch(
     justify-content: space-around;
     width: 100%;
     height: 100%;
-    background: rgb(43, 44, 46);
+    background: $gray-color-10;
     box-sizing: border-box;
 
     .title-wrapper {
         display: flex;
 
         .left {
-            img {
-                width: 75px;
-                height: 75px;
-            }
+            width: 75px;
+            height: 75px;
         }
 
         .right {

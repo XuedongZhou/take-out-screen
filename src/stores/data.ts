@@ -1,29 +1,36 @@
-import { getMapData, getUserData } from '@/api';
-import type { AgeBar, DeviceData, MapData, ScreenData, TotalUserDaTa } from '@/api/interface';
-import { onMounted, onUnmounted, ref } from 'vue';
+import { ref, onMounted, onUnmounted } from 'vue';
+import { defineStore } from 'pinia';
+import { format } from 'date-fns';
+import { random } from 'lodash-es';
+import { colors } from '@/config/color';
+import { getUserData } from '@/api';
+import type { ScreenData, TotalUserDaTa, AgeBar, DeviceData } from '@/api/interface';
 
-const color = ['rgb(116,166,49)', 'rgb(190,245,99)', 'rgb(202,252,137)', 'rgb(251,253,142)'];
+const color = [
+    colors['primary-color-6'],
+    colors['primary-color-7'],
+    colors['primary-color-8'],
+    colors['primary-color-9']
+];
 
 function getNowTime() {
-    const now = new Date();
-    return `${now.getHours()}:${now.getMinutes()}:${now.getSeconds()}`;
+    return format(new Date(), 'HH:mm:ss');
 }
 
-export default function useScreenData() {
+export const useDataStore = defineStore('data', () => {
     const ready = ref(false);
     const baseData = ref<ScreenData>();
-
     const totalUser = ref<TotalUserDaTa>();
     const ageData = ref<AgeBar[]>([]);
     const deviceData = ref<DeviceData>();
-    const mapData = ref<MapData>();
-    const realTimeOrder = ref<{ date: any[]; data: any[] }>({ date: [], data: [] });
+    const realTimeOrder = ref<{ date: string[]; data: number[] }>({ date: [], data: [] });
     const scheduleViewData = ref();
+
+    const updateTime = ref(new Date());
 
     let task: number;
 
     async function getData() {
-        mapData.value = await getMapData();
         baseData.value = await getUserData();
 
         totalUser.value = {
@@ -54,19 +61,29 @@ export default function useScreenData() {
             totalDevices: baseData.value.totalDevices || 0,
             devices: baseData.value.devices || []
         };
+
+        const date = realTimeOrder.value.date;
+        const data = realTimeOrder.value.data;
+        if (date.length > 100) {
+            date.shift();
+            data.shift();
+        }
         realTimeOrder.value = {
-            date: [...realTimeOrder.value.date, getNowTime()],
-            data: [...realTimeOrder.value.data, baseData.value.realTimeOrder]
+            date: [...date, getNowTime()],
+            data: [...data, random(1, 10000)]
         };
         if (ready.value === false) {
             ready.value = true;
         }
+
+        updateTime.value = new Date();
     }
 
     onMounted(() => {
+        getData();
         task = setInterval(() => {
             getData();
-        }, 10000);
+        }, 3000);
     });
 
     onUnmounted(() => {
@@ -79,8 +96,8 @@ export default function useScreenData() {
         totalUser,
         ageData,
         deviceData,
-        mapData,
         realTimeOrder,
-        scheduleViewData
+        scheduleViewData,
+        updateTime
     };
-}
+});
